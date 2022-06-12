@@ -22,6 +22,3 @@ class Database:
     @property
     def connection(self):
         return self._connection
-
-
-db = Database()

@@ -9,8 +9,7 @@ import time
 
 import cv2
 
-from database import db
-
+from database import Database
 
 DIST_THRESHOLD = 44
 LINE_THRESHOLD = 20
@@ -40,6 +39,7 @@ class SpeedDetector:
         self._fps = fps
         self._zone_length_m = zone_length_m
         self._speed_limit = speed_limit
+        self._db = Database()
 
     def update(self, objects_rect, img):
 
@@ -120,7 +120,7 @@ class SpeedDetector:
 
                     out.release()
 
-                    with db.connection as cur:
+                    with self._db.connection as cur:
                         cur.execute(f"""
                             insert into driver(speed, path)
                             values ({speed_km_h}, '{file_path}')
